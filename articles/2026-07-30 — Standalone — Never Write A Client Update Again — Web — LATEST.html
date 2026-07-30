@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Never Write A Client Update Again: The Weekly Update That Sends Itself</title>
+<meta name="description" content="Clients don't leave because the deal got hard. They leave because they stopped hearing from you. How a weekly update ships itself, verified, every week.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=Archivo:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD900;
+    --black: #111111;
+    --ink: #1c1c1c;
+    --paper: #FAF8F2;
+    --grey: #6b6b66;
+    --rule: #e3e0d6;
+    --maxw: 700px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .topbar {
+    background: var(--black);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 4px solid var(--yellow);
+  }
+  .topbar .brand {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    text-decoration: none;
+  }
+  .topbar .brand span { color: var(--yellow); }
+  .topbar .slot {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--yellow);
+  }
+
+  header.masthead {
+    background: var(--black);
+    color: #fff;
+    padding: 72px 28px 84px;
+    position: relative;
+    overflow: hidden;
+  }
+  header.masthead::after {
+    content: "";
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 380px;
+    height: 380px;
+    background: var(--yellow);
+    transform: rotate(18deg);
+    opacity: 0.07;
+  }
+  .masthead-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    animation: rise 0.7s ease both;
+  }
+  .kicker {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding: 7px 14px 6px;
+    margin-bottom: 28px;
+  }
+  h1 {
+    font-family: 'Anton', 'Archivo', sans-serif;
+    font-weight: 400;
+    font-size: clamp(40px, 6.4vw, 72px);
+    line-height: 1.04;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    max-width: 820px;
+  }
+  h1 .hl {
+    color: var(--yellow);
+  }
+  .deck {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: clamp(19px, 2.4vw, 24px);
+    line-height: 1.5;
+    color: #d8d5cb;
+    max-width: 640px;
+    margin-top: 26px;
+  }
+  .byline-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 36px;
+    font-family: 'Archivo', sans-serif;
+  }
+  .byline-mark {
+    width: 44px; height: 44px;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .byline-name { font-weight: 700; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .byline-sub { font-size: 12px; color: #9a978d; letter-spacing: 0.04em; margin-top: 2px; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  main { padding: 64px 28px 0; }
+  article { max-width: var(--maxw); margin: 0 auto; }
+  article > p { margin-bottom: 28px; }
+  article > p:first-of-type::first-letter {
+    font-family: 'Anton', sans-serif;
+    font-size: 74px;
+    line-height: 0.78;
+    float: left;
+    padding: 8px 14px 0 0;
+    color: var(--black);
+  }
+  h2 {
+    font-family: 'Anton', 'Archivo', sans-serif;
+    font-weight: 400;
+    font-size: clamp(26px, 3.4vw, 34px);
+    line-height: 1.12;
+    text-transform: uppercase;
+    margin: 64px 0 24px;
+    padding-top: 28px;
+    border-top: 4px solid var(--black);
+    position: relative;
+  }
+  h2::before {
+    content: "";
+    position: absolute;
+    top: -4px; left: 0;
+    width: 64px; height: 4px;
+    background: var(--yellow);
+  }
+  strong { font-weight: 700; }
+
+  .pullline {
+    font-family: 'Newsreader', serif;
+    font-weight: 600;
+    font-size: clamp(24px, 3vw, 30px);
+    line-height: 1.35;
+    margin: 44px 0;
+    padding-left: 24px;
+    border-left: 6px solid var(--yellow);
+  }
+  .mark {
+    background: linear-gradient(transparent 58%, var(--yellow) 58%, var(--yellow) 94%, transparent 94%);
+    padding: 0 2px;
+  }
+
+  .zones {
+    background: var(--black);
+    color: #fff;
+    padding: 40px 36px;
+    margin: 40px 0;
+  }
+  .zones .label {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 22px;
+  }
+  .zones .row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #2e2e2a;
+    font-family: 'Archivo', sans-serif;
+  }
+  .zones .row:last-child { border-bottom: none; }
+  .zones .num {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    color: var(--yellow);
+    min-width: 32px;
+  }
+  .zones .lbl { font-size: 16px; color: #d8d5cb; }
+  .zones .note {
+    margin-top: 22px;
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: #9a978d;
+  }
+
+  .tryit {
+    background: var(--black);
+    color: #f2f0e8;
+    padding: 44px 40px;
+    margin: 56px 0;
+    position: relative;
+  }
+  .tryit::before {
+    content: "TRY THIS TODAY";
+    position: absolute;
+    top: -14px; left: 32px;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    padding: 7px 14px 6px;
+  }
+  .tryit .timer {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 16px;
+  }
+  .tryit p { margin-bottom: 18px; font-size: 19px; }
+  .tryit p:last-child { margin-bottom: 0; }
+  .tryit em { color: var(--yellow); font-style: normal; font-weight: 600; }
+
+  .cta-wrap {
+    margin: 72px auto 0;
+    max-width: 880px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .cta-wrap-single {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+  .cta {
+    background: var(--yellow);
+    padding: 44px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .cta.alt {
+    background: var(--black);
+    color: #f2f0e8;
+  }
+  .cta::before, .cta::after {
+    content: "";
+    position: absolute;
+    width: 18px; height: 18px;
+    background: var(--black);
+  }
+  .cta.alt::before, .cta.alt::after { background: var(--yellow); }
+  .cta::before { top: 0; left: 0; clip-path: polygon(0 0, 100% 0, 0 100%); }
+  .cta::after  { bottom: 0; right: 0; clip-path: polygon(100% 100%, 100% 0, 0 100%); }
+  .cta .tag {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .cta.alt .tag { color: var(--yellow); }
+  .cta h2 {
+    border: none; margin: 0 0 14px; padding: 0;
+    font-size: clamp(22px, 3vw, 28px);
+  }
+  .cta h2::before { display: none; }
+  .cta p {
+    max-width: 400px;
+    margin: 0 auto 26px;
+    font-size: 16px;
+  }
+  .cta.alt p { color: #d8d5cb; }
+  .cta a.button {
+    display: inline-block;
+    background: var(--black);
+    color: var(--yellow);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 28px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta.alt a.button { background: var(--yellow); color: var(--black); }
+  .cta a.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -8px rgba(17,17,17,0.5);
+  }
+  .btn-icon { display: inline-block; width: 16px; height: 16px; vertical-align: -3px; margin-right: 8px; }
+  .btn-icon svg { width: 100%; height: 100%; display: block; }
+  .cta .micro {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: #4d4a3f;
+    margin-top: 14px;
+  }
+  .cta.alt .micro { color: #9a978d; }
+
+  @media (max-width: 700px) {
+    .cta-wrap { grid-template-columns: 1fr; }
+  }
+
+  footer {
+    background: var(--black);
+    color: #c9c6bb;
+    margin-top: 0;
+    padding: 64px 28px 40px;
+  }
+  .footer-inner { max-width: 880px; margin: 0 auto; }
+  .author {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #2e2e2a;
+  }
+  .author .byline-mark { width: 56px; height: 56px; font-size: 22px; }
+  .author-name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .author-bio { font-size: 17px; line-height: 1.6; max-width: 560px; }
+  .footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 28px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .footer-meta .mark-line span { color: var(--yellow); }
+  .footer-meta a { color: var(--yellow); text-decoration: none; }
+  .footer-meta a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    body { font-size: 18px; }
+    .tryit { padding: 38px 24px; }
+    .cta { padding: 38px 24px; }
+    .topbar { padding: 12px 18px; }
+    main { padding: 48px 20px 0; }
+    .zones { padding: 30px 24px; }
+  }
+
+  @media print {
+    .topbar { border-bottom-color: var(--black); }
+    .cta a.button { border: 2px solid var(--black); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="../index.html" target="_blank" rel="noopener noreferrer">BAM<span>&times;</span>AI&nbsp;MONEY&nbsp;MACHINE</a>
+  <div class="slot">Free Blueprint &middot; Client Retention</div>
+</div>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="kicker">Client Retention &middot; Week 5 of 5</div>
+    <h1>Never Write A Client Update <span class="hl">Again</span></h1>
+    <p class="deck">Clients do not leave because the deal got hard. They leave because they stopped hearing from you.</p>
+    <div class="byline-row">
+      <div class="byline-mark">LC</div>
+      <div>
+        <div class="byline-name">Leo Chen</div>
+        <div class="byline-sub">AI Money Machine &middot; 4 min read</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<article>
+
+  <p>A property management client of mine has not heard from a manager in three weeks and everything is actually fine. Rent is collected, nothing is broken, the file is clean. She does not know that. All she knows is silence, and silence reads as somebody forgot about her.</p>
+
+  <p>You know this pattern. Nothing is wrong, so nothing gets said, and the client experiences "nothing is wrong" as identical to "nobody is paying attention." Then one day something is wrong, and there is no track record of communication to fall back on, so it lands twice as hard.</p>
+
+  <h2>What a weekly update that runs itself looks like</h2>
+
+  <p>Here is what actually goes out on one of my managed properties, every week, whether I remember Monday exists or not.</p>
+
+  <p>It looks at what happened that week, rent status, any maintenance, any lease activity, and writes a short, real update in plain language. "Nothing happened this week" is itself a sentence worth sending. "Rent collected, nothing to report" takes ten seconds to read and tells the client someone is watching.</p>
+
+  <div class="zones">
+    <div class="label">How It Runs</div>
+    <div class="row"><div class="num">1</div><div class="lbl">Week's activity checked automatically &mdash; rent, maintenance, lease</div></div>
+    <div class="row"><div class="num">2</div><div class="lbl">Update written in plain language, not a report dump</div></div>
+    <div class="row"><div class="num">3</div><div class="lbl">Sent same day every week, verified in Sent</div></div>
+    <div class="row"><div class="num">4</div><div class="lbl">Anything needing a real decision flagged straight to Leo, not buried</div></div>
+    <div class="note">A quiet week gets a short honest update, not silence.</div>
+  </div>
+
+  <p class="pullline">I do not write these. I read the log after the fact and it is already sent, already in her inbox, verified, every week for the last month straight.</p>
+
+  <h2>The part that makes agents skeptical</h2>
+
+  <p>This is not a form letter with a mail-merge field. It reads the actual week, so a quiet week gets a short honest update and a busy week gets the real detail, not a template stretched to fit either one. And it knows its own limits: the moment something needs a real decision from me, a repair over a certain number, a lease question, it stops writing and hands it to me instead of guessing.</p>
+
+  <p><span class="mark">You are not asking a chatbot to fake a relationship.</span> You are training an employee whose entire job is making sure "quiet" never gets mistaken for "forgotten," every single week, for as long as you manage that account.</p>
+
+  <div class="tryit">
+    <div class="timer">Takes two minutes. Costs nothing.</div>
+    <p>Open <em>Claude Cowork</em> and start a new project for your business. Give it three facts: your market, your niche, and three words that describe how you talk.</p>
+    <p>Pick one client or owner you have gone quiet on. Give it three facts about this week: what happened, what did not, anything pending. Ask it to write a five-sentence update in your voice, plain language, no filler.</p>
+    <p>Read it back. If it sounds like something that would make that client feel looked after, you just wrote the update that was going to sit unwritten until something went wrong.</p>
+  </div>
+
+  <p>Watch what changes when "he hasn't called in a while" stops being something your clients ever get to say about you.</p>
+
+</article>
+
+<div class="cta-wrap cta-wrap-single">
+  <div class="cta alt">
+    <div class="tag">Done For You</div>
+    <h2>Have It Built</h2>
+    <p>Want it built for you, wired to your own client list, and sending by next week?</p>
+    <a class="button" href="https://bit.ly/47Qmnhn" target="_blank" rel="noopener noreferrer"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>Book The Call &rarr;</a>
+    <div class="micro">Full-service build with BAM</div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="author">
+      <div class="byline-mark">LC</div>
+      <div>
+        <div class="author-name">Leo Chen</div>
+        <p class="author-bio">Leo Chen builds AI operating systems for real estate teams and runs them across his own brokerage and agency. He's leading the AI Money Machine cohort with BAM.</p>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <div class="mark-line">BAM <span>&times;</span> AI Money Machine</div>
+      <div><a href="../index.html" target="_blank" rel="noopener noreferrer">Back To All Articles</a></div>
+      <div>&copy; 2026 Leo Chen</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
