@@ -261,6 +261,10 @@
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
+  .cta-wrap-single {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
   .cta {
     background: var(--yellow);
     padding: 44px 32px;
@@ -328,19 +332,6 @@
     margin-top: 14px;
   }
   .cta.alt .micro { color: #9a978d; }
-  .pending-tag {
-    display: inline-block;
-    font-family: 'Archivo', sans-serif;
-    font-weight: 800;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #6b4f14;
-    background: rgba(17,17,17,0.06);
-    border: 1px dashed rgba(17,17,17,0.35);
-    padding: 9px 16px;
-    margin-top: 4px;
-  }
 
   @media (max-width: 700px) {
     .cta-wrap { grid-template-columns: 1fr; }
@@ -477,13 +468,7 @@
 
 </article>
 
-<div class="cta-wrap">
-  <div class="cta">
-    <div class="tag">Build It Yourself</div>
-    <h2>Speed-to-Lead Kit</h2>
-    <p>The responder prompt, the qualify and disqualify rules, and the setup steps. Free, no opt-in, no form.</p>
-    <div class="pending-tag">Dropping This Week</div>
-  </div>
+<div class="cta-wrap cta-wrap-single">
   <div class="cta alt">
     <div class="tag">Done For You</div>
     <h2>Have It Built</h2>
